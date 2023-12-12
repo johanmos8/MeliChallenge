@@ -1,17 +1,14 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
-
 }
 
 android {
-    namespace = "com.johanmos8.melichallenge"
+    namespace = "com.johanmos8.presentation"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.johanmos8.melichallenge"
+        applicationId = "com.johanmos8.presentation"
         minSdk = 29
         targetSdk = 33
         versionCode = 1
@@ -69,21 +66,4 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-
-    //modules
-
-    implementation(fileTree( mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(project(path = ":presentation"))
-    implementation(project(path = ":domain"))
-    implementation(project(path = ":data"))
-
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
-
-
 }
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
-}
-

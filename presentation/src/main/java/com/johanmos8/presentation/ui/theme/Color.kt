@@ -1,4 +1,4 @@
-package com.johanmos8.melichallenge.ui.theme
+package com.johanmos8.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.johanmos8.melichallenge
+package com.johanmos8.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.johanmos8.melichallenge.ui.theme.MeliChallengeTheme
+import com.johanmos8.presentation.ui.theme.MeliChallengeTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
