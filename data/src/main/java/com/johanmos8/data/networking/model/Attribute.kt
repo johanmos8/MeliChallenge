@@ -10,5 +10,5 @@ data class Attribute(
     val value_name: String,
     val value_struct: ValueStruct,
     val value_type: String,
-    val values: List<ValueXX>
+    val values: List<Value>
 )

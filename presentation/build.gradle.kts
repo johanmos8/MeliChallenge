@@ -1,6 +1,8 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -8,11 +10,9 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.johanmos8.presentation"
         minSdk = 29
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -58,7 +58,11 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
+
+    implementation("androidx.compose.material3:material3:1.1.2")
+
+
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -67,6 +71,14 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+
     implementation(project(mapOf("path" to ":domain")))
     implementation("com.google.dagger:hilt-android:2.44")
+    //Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.5")
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("com.google.dagger:hilt-android:2.47")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
+    kapt("com.google.dagger:hilt-android-compiler:2.47")
 }

@@ -1,5 +1,6 @@
 package com.johanmos8.presentation.ui.screen.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.johanmos8.domain.interactor.GetItemBySearchUseCase
@@ -15,7 +16,9 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
 
-            getItemBySearchUseCase.invoke("MLA1055")
+            getItemBySearchUseCase.invoke("MLA1055").collect{
+                Log.d("HomeViewModel", it.toString())
+            }
         }
     }
 }

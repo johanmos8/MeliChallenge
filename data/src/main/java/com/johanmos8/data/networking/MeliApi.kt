@@ -8,10 +8,9 @@ import retrofit2.http.Url
 
 interface MeliApi {
 
-    @GET
+    @GET("sites/MLA/search")
     suspend fun getItemBySearch(
-        @Url url: String,
-        @Query("search") search: String
+        @Query("q") query: String
     ): Response<SearchResponse>
 
 }
