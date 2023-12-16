@@ -6,5 +6,7 @@ import com.johanmos8.domain.model.ItemDomain
 fun Item.toDomain() = ItemDomain(
     id = id,
     title = title,
-    price = price
+    price = price,
+    thumbnail = thumbnail,
+    currencyId = currencyId
 )

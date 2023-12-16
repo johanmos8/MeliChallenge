@@ -12,12 +12,17 @@ class RemoteDataSource @Inject constructor(
     private val meliApi: MeliApi
 ) {
 
+    /**
+     * Function to get items by search
+     * @param search String
+     * @return Flow<Resource<List<ItemDomain>>>
+     */
     suspend fun getItemBySearch(search: String): Flow<Resource<List<ItemDomain>>> {
         return flow {
             emit(Resource.loading())
             try {
                 val response = meliApi.getItemBySearch(
-                  "Motorola"
+                    query = search
                 )
                 if (response.isSuccessful) {
                     response.body()?.results?.map {
