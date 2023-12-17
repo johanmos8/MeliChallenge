@@ -12,6 +12,9 @@ import com.johanmos8.domain.model.ItemDomain
 import com.johanmos8.domain.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,10 +24,18 @@ class HomeViewModel @Inject constructor(
     private val getItemBySearchUseCase: GetItemBySearchUseCase
 ) : ViewModel() {
 
+    private val _searchText = MutableStateFlow("")
+    var searchText = _searchText.asStateFlow()
+
+    private val _isSearching = MutableStateFlow(false)
+    val isSearching = _isSearching.asStateFlow()
 
     // UIState
-    var uiState by mutableStateOf(UIState())
-        private set
+
+
+    private val _uiState = MutableStateFlow(UIState())
+
+    val uiState: StateFlow<UIState> get() = _uiState
 
     /**
      * Function to get items searching asynchronously a string
@@ -36,17 +47,17 @@ class HomeViewModel @Inject constructor(
             getItemBySearchUseCase.invoke(search).collectLatest { result ->
                 when (result.status) {
                     Status.LOADING -> {
-                        uiState = uiState.copy(isLoading = true)
+                        _uiState.value = UIState(isLoading = true)
                     }
 
                     Status.SUCCESS -> {
                         result.data?.let { items ->
-                            uiState = uiState.copy(foundItems = items, isLoading = false)
+                            _uiState.value = UIState(foundItems = items, isLoading = false)
                         }
                     }
 
                     Status.ERROR -> {
-                        uiState = uiState.copy(
+                        _uiState.value = UIState(
                             errorMessage = result.message.toString(),
                             isLoading = false
                         )
@@ -59,7 +70,7 @@ class HomeViewModel @Inject constructor(
     fun onUIEvent(uiEvent: UIEvent) {
         when (uiEvent) {
 
-            is UIEvent.OnGetItemsBySearch -> getItemsBySearch("bmw")
+            is UIEvent.OnGetItemsBySearch -> getItemsBySearch(uiEvent.search)
 
         }
     }
