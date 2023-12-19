@@ -33,7 +33,8 @@ import com.johanmos8.presentation.ui.screen.home.ShowList
 @Composable
 
 fun SearchBarComponent(
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    onItemClick: (String) -> Unit,
 ) {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
@@ -56,7 +57,7 @@ fun SearchBarComponent(
                     onSearch = {
                         active = false
                         homeViewModel.onUIEvent(HomeViewModel.UIEvent.OnGetItemsBySearch(text))
-                               },
+                    },
                     active = active,
                     onActiveChange = {
                         active = it
@@ -74,6 +75,7 @@ fun SearchBarComponent(
     ) {
         val uiState = homeViewModel.uiState.collectAsState()
         ShowList(
+            onItemClick = onItemClick,
             modifier = Modifier.padding(it),
             items = uiState.value.foundItems
         )

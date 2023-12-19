@@ -1,14 +1,11 @@
 package com.johanmos8.presentation.ui.screen.home
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.johanmos8.domain.interactor.GetItemBySearchUseCase
-import com.johanmos8.domain.model.ItemDomain
+import com.johanmos8.domain.model.ItemDetail
 import com.johanmos8.domain.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +26,9 @@ class HomeViewModel @Inject constructor(
 
     private val _isSearching = MutableStateFlow(false)
     val isSearching = _isSearching.asStateFlow()
+
+    private val _selectedItem = MutableStateFlow<ItemDetail?>(null)
+    val selectedItem: StateFlow<ItemDetail?> = _selectedItem
 
     // UIState
 
@@ -67,6 +67,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun getItemDetail(itemId: String) {
+        Log.d("getItemDetail", "getItemDetail: $itemId")
+        Log.d("getItemDetail", "getItemDetail: ${uiState.value.foundItems}")
+        _selectedItem.value=uiState.value.foundItems.find { it.id == itemId }
+
+    }
     fun onUIEvent(uiEvent: UIEvent) {
         when (uiEvent) {
 
@@ -80,7 +86,7 @@ class HomeViewModel @Inject constructor(
     }
 
     data class UIState(
-        var foundItems: List<ItemDomain> = emptyList(),
+        var foundItems: List<ItemDetail> = emptyList(),
         var isLoading: Boolean = false,
         var errorMessage: String = ""
     )

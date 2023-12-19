@@ -78,8 +78,11 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
-
-
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.12")
+    implementation ("androidx.activity:activity-ktx:1.8.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2")
 }
 // Allow references to generated code
 kapt {

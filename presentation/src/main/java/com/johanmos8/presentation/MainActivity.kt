@@ -12,13 +12,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.johanmos8.presentation.ui.navigation.MainNavHost
 import com.johanmos8.presentation.ui.screen.home.HomeScreen
+import com.johanmos8.presentation.ui.screen.home.HomeViewModel
 import com.johanmos8.presentation.ui.theme.MeliChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.activity.viewModels
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val homeViewModel: HomeViewModel by viewModels()
         setContent {
             MeliChallengeTheme {
                 // A surface container using the 'background' color from the theme
@@ -28,11 +31,11 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     MainNavHost(
+                        homeViewModel = homeViewModel,
                         navController = navController,
                         modifier = Modifier.padding(0.dp)
                     )
 
-                    //SearchBarComponent()
                 }
             }
         }

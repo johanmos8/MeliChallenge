@@ -1,12 +1,9 @@
 package com.johanmos8.presentation.ui.component
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,24 +13,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.johanmos8.domain.model.ItemDomain
-import com.johanmos8.presentation.R
+import com.johanmos8.domain.model.ItemDetail
 import com.johanmos8.presentation.util.convertToHttps
 import com.johanmos8.presentation.util.formatPrice
 import com.johanmos8.presentation.util.getAsyncImageModel
@@ -41,25 +32,31 @@ import com.johanmos8.presentation.util.getAsyncImageModel
 @Composable
 fun CardItem(
     modifier: Modifier = Modifier,
-    item: ItemDomain
+    item: ItemDetail,
+    onItemClick: (String) -> Unit,
 ) {
     Card(
         modifier = modifier
+
             .fillMaxSize()
+
             .padding(horizontal = 16.dp, vertical = 4.dp),
         shape = RoundedCornerShape(CornerSize(16.dp)),
         elevation = CardDefaults.cardElevation(4.dp),
     ) {
         Column(
             modifier = Modifier
+                .clickable {
+                    Log.d("CardItem click", "CardItem: ${item.id}")
+                    onItemClick(item.id)
+                }
                 .fillMaxWidth()
                 .padding(20.dp)
-                .clickable { /* Handle click on the card */ }
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 AsyncImage(
                     model = getAsyncImageModel(
-                        data = item.thumbnail.convertToHttps(),
+                        data = item.thumbnail?.convertToHttps(),
                         context = LocalContext.current
                     ),
                     contentDescription = null,
@@ -81,11 +78,13 @@ fun CardItem(
                         text = item.title,
                         style = MaterialTheme.typography.labelMedium
                     )
-                    Text(
-                        text = item.price.formatPrice(item.currencyId),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.outline
-                    )
+                    item.price?.formatPrice(item.currencyId)?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.outline
+                        )
+                    }
                 }
 
             }

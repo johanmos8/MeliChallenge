@@ -10,12 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.johanmos8.presentation.ui.screen.home.HomeViewModel
 
 @Composable
 @Preview
 fun LoadingIndicator(
-    isLoading: Boolean = true
+   isLoading: Boolean = false
 ) {
+
     if (isLoading) {
         Surface(modifier = Modifier.fillMaxSize(), color = Color.Transparent) {
             CircularProgressIndicator(

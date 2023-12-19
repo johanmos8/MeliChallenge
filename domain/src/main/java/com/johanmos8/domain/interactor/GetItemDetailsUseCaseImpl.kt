@@ -3,13 +3,13 @@ package com.johanmos8.domain.interactor
 import com.johanmos8.domain.model.ItemDetail
 import com.johanmos8.domain.repository.ItemRepository
 import com.johanmos8.domain.util.Resource
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetItemBySearchUseCaseImpl @Inject constructor(
+class GetItemDetailsUseCaseImpl @Inject constructor(
     private val itemRepository: ItemRepository
-) : GetItemBySearchUseCase {
-    override suspend fun invoke(search: String): Flow<Resource<List<ItemDetail>>> {
-        return itemRepository.getItemBySearch(search)
+) : GetItemDetailsUseCase {
+    override suspend fun invoke(itemId: String): Resource<ItemDetail> {
+        return itemRepository.getItemDetail(itemId)
     }
+
 }
