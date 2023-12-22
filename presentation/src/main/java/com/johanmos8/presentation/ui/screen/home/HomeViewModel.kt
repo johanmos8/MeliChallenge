@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+const val TAG = "HomeViewModel"
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getItemBySearchUseCase: GetItemBySearchUseCase
@@ -57,6 +59,7 @@ class HomeViewModel @Inject constructor(
                     }
 
                     Status.ERROR -> {
+                        Log.d(TAG, "getItemsBySearch: ${result.message}")
                         _uiState.value = UIState(
                             errorMessage = result.message.toString(),
                             isLoading = false
@@ -67,22 +70,22 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getItemDetail(itemId: String) {
-        Log.d("getItemDetail", "getItemDetail: $itemId")
-        Log.d("getItemDetail", "getItemDetail: ${uiState.value.foundItems}")
-        _selectedItem.value=uiState.value.foundItems.find { it.id == itemId }
+
+    fun getCategories() {
 
     }
+
     fun onUIEvent(uiEvent: UIEvent) {
         when (uiEvent) {
 
             is UIEvent.OnGetItemsBySearch -> getItemsBySearch(uiEvent.search)
-
+            is UIEvent.OnGetCategories -> getCategories()
         }
     }
 
     sealed class UIEvent {
         data class OnGetItemsBySearch(val search: String) : UIEvent()
+        data class OnGetCategories(val filter: String) : UIEvent()
     }
 
     data class UIState(

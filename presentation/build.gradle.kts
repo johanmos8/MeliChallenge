@@ -60,6 +60,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
 
     implementation("androidx.compose.material3:material3:1.1.2")
+    implementation("androidx.paging:paging-compose:3.2.1")
 
 
 

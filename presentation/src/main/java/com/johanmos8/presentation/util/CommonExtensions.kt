@@ -3,6 +3,7 @@ package com.johanmos8.presentation.util
 import android.content.Context
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import com.johanmos8.domain.model.ItemDetail
 import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
@@ -33,4 +34,11 @@ fun String.convertToHttps(): String {
 
     // Reemplazar "http://" con "https://"
     return replace("http://", "https://", ignoreCase = true)
+}
+fun ItemDetail.translateCondition(): String {
+    return when (condition) {
+        "used" -> "usado"
+        "new" -> "nuevo"
+        else -> condition  // Si no coincide con ninguna condición devolver el valor original
+    }
 }

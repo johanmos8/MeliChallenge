@@ -35,7 +35,7 @@ fun MainNavHost(
             })
         ) { it ->
             it.arguments?.getString("itemId")?.let { id ->
-                DetailScreen(itemId = id)
+                DetailScreen(itemId = id, navHostController = navController)
             }
 
         }

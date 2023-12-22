@@ -2,6 +2,7 @@ package com.johanmos8.data.mapper
 
 import com.johanmos8.data.networking.model.DetailsResponse
 import com.johanmos8.data.networking.model.Item
+import com.johanmos8.data.networking.model.Location
 import com.johanmos8.data.networking.model.Picture
 import com.johanmos8.domain.model.ItemDetail
 import com.johanmos8.domain.model.ItemPicture
@@ -16,10 +17,18 @@ fun DetailsResponse.toDomain() = ItemDetail(
     acceptsMercadoPago = acceptsMercadopago,
     availableQuantity = availableQuantity,
     freeShipping = shipping?.free_shipping ?: false,
-    picturesUrl = pictures?.toStringList()
+    picturesUrl = pictures?.toPictureList(),
+    location = location?.getAddress()
 )
 
-fun Picture.toDomain() = ItemPicture(secureUrl = secureUrl)
+fun Picture.toDomain() = ItemPicture(
+    secureUrl = secureUrl,
+    id = id,
+    url = url,
+    size = size,
+    maxSize = maxSize,
+    quality = quality
+)
 
 fun List<Picture?>.toPictureList(): List<ItemPicture> {
     return mapNotNull { it?.toDomain() }
@@ -39,6 +48,6 @@ fun Item.ToDomainModel() = ItemDetail(
     picturesUrl = emptyList()
 )
 
-fun List<Picture?>.toStringList(): List<String> {
-    return mapNotNull { it?.secureUrl }
-}
+fun Location.getAddress(): String = "${city.name} - ${state.name} - ${country.name}"
+
+

@@ -13,6 +13,6 @@ data class ItemDetail(
     val freeShipping: Boolean,
     val location: String?="",
     val pictureUrl: String?="",
-    val picturesUrl: List<String>?,
+    val picturesUrl: List<ItemPicture>?,
 
     )

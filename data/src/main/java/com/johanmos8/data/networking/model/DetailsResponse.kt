@@ -16,5 +16,6 @@ data class DetailsResponse(
     @SerializedName("currency_id") val currencyId: String,
     @SerializedName("secure_thumbnail")
     val secureThumbnail: String?,
-    val title: String
+    val title: String,
+    val location: Location?
 )
