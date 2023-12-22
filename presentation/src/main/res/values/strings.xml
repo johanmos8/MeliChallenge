@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">presentation</string>
-    <string name="search_products">Search products</string>
+    <string name="search_products">Buscar productos</string>
     <string name="free_shipping">Envío gratis</string>
     <string name="item_status">Estado del producto: %1$s</string>
     <string name="item_price">"Precio: %1$s "</string>
@@ -8,4 +8,7 @@
     <string name="unexpected_error">Un error inesperado ocurrió</string>
     <string name="error_icon">Icono de error</string>
     <string name="items_not_found">No se encontraron resultados de búsqueda.</string>
+    <string name="search_icon">Icono de búsqueda</string>
+    <string name="close_icon">Icono de cerrar</string>
+
 </resources>

@@ -2,35 +2,23 @@ package com.johanmos8.presentation.ui.screen.home
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.isTraversalGroup
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.johanmos8.domain.model.ItemDetail
 import com.johanmos8.presentation.R
 import com.johanmos8.presentation.ui.component.CardItem
+import com.johanmos8.presentation.ui.component.CategoryList
 import com.johanmos8.presentation.ui.component.EmptySearchResultMessage
 import com.johanmos8.presentation.ui.component.ErrorMessage
 import com.johanmos8.presentation.ui.component.LoadingIndicator
@@ -64,16 +52,17 @@ fun HomeScreenContent(
     }
     val uiState = viewModel.uiState.collectAsState()
 
+    LaunchedEffect(key1 = true) {
+        viewModel.onUIEvent(HomeViewModel.UIEvent.OnGetCategories)
+    }
     Scaffold(
         topBar = {
             SearchBarComponent(homeViewModel = viewModel, onItemClick = onItemClick)
         },
 
         ) {
-        if (uiState.value.foundItems.isEmpty()) {
-            EmptySearchResultMessage()
-        } else {
-
+        Log.d("HomeScreen", "it: ${uiState.value.foundItems.isEmpty()}")
+        if (uiState.value.foundItems.isNotEmpty()) {
             ShowList(
                 onItemClick = onItemClick,
                 modifier = Modifier
@@ -81,10 +70,15 @@ fun HomeScreenContent(
                     .background(BackgroundListColor),
                 items = uiState.value.foundItems
             )
+        } else if (uiState.value.categories.isNotEmpty()) {
+            CategoryList( modifier = Modifier
+                .padding(it)
+                .background(BackgroundListColor),categories = uiState.value.categories, onCategoryClicked = {/*TODO*/ })
+        } else if(!uiState.value.isLoading &&uiState.value.errorMessage.isEmpty()) {
+            EmptySearchResultMessage()
         }
     }
-
-    if (!uiState.value.errorMessage.isNullOrEmpty()) {
+    if (uiState.value.errorMessage.isNotEmpty()) {
         ErrorMessage(
             errorMessage = stringResource(R.string.unexpected_error),
             modifier = Modifier,
@@ -109,7 +103,6 @@ fun ShowList(
         items(items) { item ->
             CardItem(
                 modifier = Modifier
-
                     .padding(8.dp),
                 item = item,
                 onItemClick = onItemClick

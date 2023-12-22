@@ -113,7 +113,7 @@ fun ItemDetailScreen(item: ItemDetail, navHostController: NavHostController) {
                         text = stringResource(R.string.free_shipping),
                         style = TextStyle(
                             fontSize = 18.sp,
-                            color = Green
+                            color = MaterialTheme.colorScheme.primary
                         ),
                     )
                 }

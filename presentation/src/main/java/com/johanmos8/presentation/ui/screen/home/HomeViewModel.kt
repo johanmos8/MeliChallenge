@@ -1,10 +1,11 @@
 package com.johanmos8.presentation.ui.screen.home
 
 import android.util.Log
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.johanmos8.domain.interactor.GetCategoriesUseCase
 import com.johanmos8.domain.interactor.GetItemBySearchUseCase
+import com.johanmos8.domain.model.ItemCategory
 import com.johanmos8.domain.model.ItemDetail
 import com.johanmos8.domain.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,9 @@ const val TAG = "HomeViewModel"
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getItemBySearchUseCase: GetItemBySearchUseCase
+    private val getItemBySearchUseCase: GetItemBySearchUseCase,
+    private val getCategoriesUseCase: GetCategoriesUseCase
+
 ) : ViewModel() {
 
     private val _searchText = MutableStateFlow("")
@@ -71,8 +74,30 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun getCategories() {
+    private fun getCategories() {
+        _uiState.value = UIState(isLoading = true)
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = getCategoriesUseCase.invoke()
+            when (result.status) {
+                Status.LOADING -> {
+                    _uiState.value = UIState(isLoading = true)
+                }
 
+                Status.SUCCESS -> {
+                    result.data?.let { categories ->
+                        _uiState.value = UIState(categories = categories, isLoading = false)
+                    }
+                }
+
+                Status.ERROR -> {
+                    Log.d(TAG, "getCategories: ${result.message}")
+                    _uiState.value = UIState(
+                        errorMessage = result.message.toString(),
+                        isLoading = false
+                    )
+                }
+            }
+        }
     }
 
     fun onUIEvent(uiEvent: UIEvent) {
@@ -85,10 +110,11 @@ class HomeViewModel @Inject constructor(
 
     sealed class UIEvent {
         data class OnGetItemsBySearch(val search: String) : UIEvent()
-        data class OnGetCategories(val filter: String) : UIEvent()
+        object OnGetCategories : UIEvent()
     }
 
     data class UIState(
+        var categories: List<ItemCategory> = emptyList(),
         var foundItems: List<ItemDetail> = emptyList(),
         var isLoading: Boolean = false,
         var errorMessage: String = ""

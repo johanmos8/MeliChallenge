@@ -16,6 +16,7 @@ import com.johanmos8.presentation.ui.screen.home.HomeViewModel
 import com.johanmos8.presentation.ui.theme.MeliChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.activity.viewModels
+import androidx.compose.ui.graphics.Color
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -27,7 +28,6 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
                     MainNavHost(
