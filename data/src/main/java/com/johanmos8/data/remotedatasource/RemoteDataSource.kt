@@ -2,8 +2,10 @@ package com.johanmos8.data.remotedatasource
 
 import android.util.Log
 import com.johanmos8.data.mapper.ToDomainModel
+import com.johanmos8.data.mapper.toCategoryDomain
 import com.johanmos8.data.mapper.toDomain
 import com.johanmos8.data.networking.MeliApi
+import com.johanmos8.domain.model.ItemCategory
 import com.johanmos8.domain.model.ItemDetail
 import com.johanmos8.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -47,14 +49,14 @@ class RemoteDataSource @Inject constructor(
         itemId: String
     ): Resource<ItemDetail> {
 
-       return try {
+        return try {
             val response = meliApi.getDetailsById(
                 itemId = itemId
             )
             if (response.isSuccessful) {
                 response.body()?.let {
                     Resource.success(it.toDomain())
-                }?: Resource.error("No items found")
+                } ?: Resource.error("No items found")
             } else {
                 Resource.error("No item found")
             }
@@ -64,4 +66,21 @@ class RemoteDataSource @Inject constructor(
         }
     }
 
+    suspend fun getCategories(): Resource<List<ItemCategory>> {
+        return try {
+            val response = meliApi.getCategories()
+            if (response.isSuccessful) {
+                response.body()?.map {
+                    it.toCategoryDomain()
+                }?.let {
+                    Resource.success(it)
+                } ?: Resource.error("No categories found")
+            } else {
+                Resource.error("No categories found")
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "${e.message}")
+            return Resource.error("An error occurred ${e.message}")
+        }
+    }
 }

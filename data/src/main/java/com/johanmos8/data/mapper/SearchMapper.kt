@@ -48,6 +48,12 @@ fun Item.ToDomainModel() = ItemDetail(
     picturesUrl = emptyList()
 )
 
-fun Location.getAddress(): String = "${city.name} - ${state.name} - ${country.name}"
+fun Location?.getAddress(): String? {
+
+    if (this == null) {
+        return null
+    }
+    return "${this.city?.name ?: ""} - ${this.state?.name ?: ""} - ${this.country?.name ?: ""}".takeIf { it.isNotBlank() }}
+
 
 
