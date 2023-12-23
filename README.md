@@ -21,7 +21,7 @@ Android App for "Mercado Libre" store using latest Architecture components and D
 ### Background Strategy:
 - **Kotlin Coroutines**
 
-### Code Quiality
+### Code Quality
 **Unit Testing**: Created unit tests for the modules using Mockito and Junit.
 
 ## Architecture
@@ -43,8 +43,8 @@ Android App for "Mercado Libre" store using latest Architecture components and D
 3. Error Handling
 
 ### TODO
-  **Add to cart** : Add selected item to a cart
-  **Model error with more details** : Add new models for errors to handle it in a specific way
+- **Add to cart** : Add selected item to a cart
+- **Model error with more details** : Add new models for errors to handle it in a specific way
 - **UI Testing**: Created unit test for UI.
 - **BuildSrc Strategy**: Improve dependencies build sources
 - **Animations**: Add animations to UI
