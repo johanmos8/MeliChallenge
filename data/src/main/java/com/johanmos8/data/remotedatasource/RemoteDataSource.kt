@@ -10,6 +10,7 @@ import com.johanmos8.domain.model.ItemDetail
 import com.johanmos8.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.io.IOException
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(

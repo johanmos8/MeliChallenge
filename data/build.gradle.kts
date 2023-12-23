@@ -35,6 +35,13 @@ dependencies {
     //paging3
     implementation("androidx.paging:paging-common-ktx:3.2.1")
     implementation("androidx.paging:paging-runtime-ktx:3.2.1")
-
+    //mockito
+    testImplementation("org.mockito:mockito-core:4.8.0")
+    testImplementation("org.mockito:mockito-inline:4.8.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    //junit4
+    testImplementation("junit:junit:4.13.2")
+    //coroutines
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
 }
